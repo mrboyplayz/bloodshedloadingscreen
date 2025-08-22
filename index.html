@@ -57,19 +57,6 @@ footer {
   font-size: 14px; color: #6cff78;
   z-index: 2;
 }
-.spinner {
-  margin: 24px auto 0 auto;
-  width: 60px; height: 60px;
-  border: 7px solid #6cff78;
-  border-top: 7px solid #ff7878;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  z-index:2;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
-}
 </style>
 </head>
 <body>
@@ -98,6 +85,7 @@ body::after {
 }
 </style>
 
+
 <h1>crow's homigrad [We host Bloodshed every Friday!]</h1>
 <h2>Loading... Please wait.</h2>
 <div class="spinner"></div>
@@ -106,26 +94,7 @@ body::after {
 <footer>welcome to crow's homigrad, peak homigrad.</footer>
 
 <script>
-// Shuffle node list of slides (Fisher-Yates)
-function shuffleSlides(slidesContainer) {
-  const slides = Array.from(slidesContainer.children);
-  for (let i = slides.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    slidesContainer.insertBefore(slides[j], slides[i]);
-    // Swap in array too so next round works
-    [slides[i], slides[j]] = [slides[j], slides[i]];
-  }
-  // Ensure only the first is active after shuffle
-  slides.forEach((slide, idx) => {
-    slide.classList.remove('active');
-    if (idx === 0) slide.classList.add('active');
-  });
-}
-
-const slidesContainer = document.querySelector('.slideshow');
-shuffleSlides(slidesContainer);
-
-const slides = slidesContainer.querySelectorAll(".slide");
+const slides = document.querySelectorAll(".slide");
 let current = 0;
 setInterval(() => {
   slides[current].classList.remove("active");
