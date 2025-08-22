@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>cro's homigrad | Loading...</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body, html {
   height: 100%; width: 100%;
   overflow: hidden;
-  font-family: 'Oswald', Arial, sans-serif;
+  font-family: 'Oswald', sans-serif;
   color: #f2f2f2;
   text-shadow: 0 0 8px rgba(0,0,0,0.8);
   display: flex;
@@ -18,35 +17,33 @@ body, html {
   align-items: center;
   flex-direction: column;
   position: relative;
-  background: #222;
 }
 .slideshow {
   position: fixed; top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  width: 100%; height: 100%;
   z-index: -1; overflow: hidden;
 }
 .slide {
   position: absolute; top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  width: 100%; height: 100%;
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 2s ease-in-out;
 }
 .slide.active { opacity: 1; }
 
-h1 { font-size: 60px; margin: 10px 0; z-index: 2; text-align: center; }
-h2 { font-size: 22px; margin-bottom: 16px; z-index: 2; text-align: center;}
+h1 { font-size: 60px; margin: 10px 0; z-index: 2; }
+h2 { font-size: 20px; margin-bottom: 20px; z-index: 2; }
 
 .status {
-  font-size: 20px;
+  font-size: 18px;
   margin-top: 10px;
   z-index: 2;
   color: #ff7878;
-  text-align: center;
 }
 .tips {
-  position: absolute; bottom: 60px;
+  position: absolute; bottom: 50px;
   font-size: 18px;
   z-index: 2;
   color: #6cff78;
@@ -56,9 +53,9 @@ h2 { font-size: 22px; margin-bottom: 16px; z-index: 2; text-align: center;}
 }
 @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
 footer {
-  position: absolute; bottom: 18px;
+  position: absolute; bottom: 15px;
   font-size: 14px; color: #6cff78;
-  z-index: 2; width: 100%; text-align: center;
+  z-index: 2;
 }
 .spinner {
   margin: 24px auto 0 auto;
@@ -89,7 +86,19 @@ footer {
   <div class="slide" style="background-image: url('https://files.catbox.moe/cr64dw.jpg');"></div>
 </div>
 
-<h1>crow's homigrad<br><span style="font-size:24px;">We host Bloodshed every Friday!</span></h1>
+<style>
+body::after {
+  content: url('https://files.catbox.moe/j4f3uq.png')
+           url('https://files.catbox.moe/una6xn.png')
+           url('https://files.catbox.moe/6cwk58.png')
+           url('https://files.catbox.moe/r9a856.png')
+           url('https://files.catbox.moe/g700pk.png')
+           url('https://files.catbox.moe/yonumg.png');
+  display: none;
+}
+</style>
+
+<h1>crow's homigrad [We host Bloodshed every Friday!]</h1>
 <h2>Loading... Please wait.</h2>
 <div class="spinner"></div>
 <div class="status" id="statusText">(Preparing downloads...)</div>
@@ -97,8 +106,26 @@ footer {
 <footer>welcome to crow's homigrad, peak homigrad.</footer>
 
 <script>
-// Simple slideshow
-const slides = document.querySelectorAll(".slide");
+// Shuffle node list of slides (Fisher-Yates)
+function shuffleSlides(slidesContainer) {
+  const slides = Array.from(slidesContainer.children);
+  for (let i = slides.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    slidesContainer.insertBefore(slides[j], slides[i]);
+    // Swap in array too so next round works
+    [slides[i], slides[j]] = [slides[j], slides[i]];
+  }
+  // Ensure only the first is active after shuffle
+  slides.forEach((slide, idx) => {
+    slide.classList.remove('active');
+    if (idx === 0) slide.classList.add('active');
+  });
+}
+
+const slidesContainer = document.querySelector('.slideshow');
+shuffleSlides(slidesContainer);
+
+const slides = slidesContainer.querySelectorAll(".slide");
 let current = 0;
 setInterval(() => {
   slides[current].classList.remove("active");
@@ -106,7 +133,6 @@ setInterval(() => {
   slides[current].classList.add("active");
 }, 7000);
 
-// Status text updater (support for Garry's Mod query params)
 function getQueryParams() {
   const params = {};
   window.location.search.substring(1).split("&").forEach(pair => {
@@ -125,13 +151,12 @@ if (params.dlfile) {
   statusText.textContent = "(Preparing content...)";
 }
 
-// Tip cycling
 const tips = [
   "We don't talk about the chicken jockey swep.",
-  "Hold Q to access the menu for everything you need.",
-  "Press F2 to open a shop, where you buy guns, melees, etc.",
+  "Hold Q inorder to access the menu for everything you need.",
+  "Press F2 to open a shop, where you buy guns, melees, etc,",
   "Do you goon everyday? Do you scare huzz away? Do you smell like fish fillet?",
-  "If you had any memories from me in 2023 to late 2024, It wasn't me.",
+  "If you had any memories from me in 2023 to late 2024, It wasn't me",
   "I dream about Cheeese.",
   "Join our discord! https://discord.gg/4sfJ5KtTaX",
 ];
@@ -142,5 +167,6 @@ setInterval(() => {
   tipBox.textContent = tips[tipIndex];
 }, 6000);
 </script>
+
 </body>
 </html>
